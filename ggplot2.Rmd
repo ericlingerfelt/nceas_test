@@ -8,11 +8,47 @@ output: html_document
 Learing to plot with RStudio.
 
 ```{r}
+library(ggplot2)
 mpg
 ```
 
 ```{r}
 my_plot = ggplot(data=mpg, mapping = aes(x = displ, y = hwy))
-my_plot + geom_point()
+my_plot + geom_point(alpha = 0.4)
+```
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy, color=class)) + geom_point()
+```
+
+Make a scatterplot of `hwy` vs `cty` with different size points representing each car `class` and different colors for each fuel type (`fl`)
+
+```{r}
+ggplot(data = mpg, aes(x = displ, y = hwy, color = class)) +
+     geom_point() +
+     facet_wrap(~ manufacturer) +
+     theme_bw()
+```
+
+```{r}
+ggplot(mpg, aes(x = drv, y = hwy)) + 
+  geom_jitter()
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_smooth(aes(x = displ, y = hwy))
+```
+
+```{r}
+my_plot <- ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = class)) + 
+  geom_smooth() +
+  labs(title = "Relationship between engine size and mpg",
+       x = "Highway MPG",
+       y = "Engine displacement (liters)") +
+  theme_bw() +
+  theme(text=element_text(size = 16))
+
+ggsave("name_of_file.png", my_plot, width = 15, height = 10, device="png", dpi=300)
 ```
 
