@@ -41,6 +41,128 @@ unique(gapminder[, "year"])
 ```
 
 ```{r}
+summary(gapminder)
+```
+
+```{r}
+install.packages("skimr")
+```
+
+```{r}
+library(skimr)
+skimr::skim(gapminder)
+```
+
+```{r}
+dplyr::filter(gapminder, country=="Switzerland")
+```
+
+```{r}
+dplyr::filter(gapminder, country == "Afghanistan", year==max(year))
+```
+
+
+```{r}
+dplyr::select(gapminder, -continent)
+```
+
+```{r}
+gapminder_no_cont <- dplyr::select(gapminder, -continent)
+dplyr::filter(gapminder_no_cont, year==2007)
+```
+
+```{r}
+dplyr::select(gapminder, -continent) %>% 
+  filter(year == 2007)
 
 ```
+
+```{r}
+gapminder %>% 
+  dplyr::mutate(gdp = gdpPercap * pop) %>%
+  arrange(desc(gdp))
+```
+
+```{r}
+gapminder %>% 
+  group_by(country) %>%
+  mutate(gdp = gdpPercap*pop, max_gdp = max(gdp)) %>%
+  ungroup()
+```
+
+```{r}
+gapminder %>%
+  group_by(country) %>%
+  mutate(gdp = pop * gdpPercap) %>%
+  summarize(max_gdp = max(gdp)) %>%
+  ungroup()
+```
+
+```{r}
+co2 <- read_csv("https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/co2.csv")
+```
+
+```{r}
+gapminder %>%
+  filter(year == 2007)
+
+gap_2007 <- gapminder %>%
+  filter(year == 2007) 
+```
+
+```{r}
+gap_2007
+```
+```{r}
+right_join(gap_2007, co2, by = "country")
+```
+
+```{r}
+AirPassengers
+```
+```{r}
+gap_wide <- read_csv("https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/gapminder_wide.csv")
+```
+
+```{r}
+gap_better <- gap_wide %>% 
+  gather(observation, observ_value, -continent, -country) %>%
+  separate(observation, into = c("obs_type", "year"), sep = "_", convert = TRUE)
+
+unique(gap_better$obs_type)
+```
+
+```{r}
+gap_better %>%
+  spread(obs_type, observ_value)
+```
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+
+
+
+
 
